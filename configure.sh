@@ -5,7 +5,8 @@ source variables.conf
 function makeDir()
 {
 echo "Create ARCHIVE_HOME $ARCHIVE_HOME"
-mkdir -v -p $ARCHIVE_HOME/src
+mkdir -v -p $ARCHIVE_HOME/regal-api
+mkdir -v -p $ARCHIVE_HOME/regal-import
 mkdir -v $ARCHIVE_HOME/sync
 mkdir -v $ARCHIVE_HOME/fedora
 if [ -n $MODULE ]
