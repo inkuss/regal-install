@@ -16,3 +16,5 @@ then
 else
 	unzip play-2.2.3.zip -d $ARCHIVE_HOME
 fi
+
+export PLAY2_HOME=$ARCHIVE_HOME/play-2.2.3
