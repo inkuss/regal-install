@@ -63,5 +63,5 @@ sed -e "s,\$ARCHIVE_HOME,$ARCHIVE_HOME,g" \
 
 
 
-makeDir > /dev/null 2>&1
+makeDir 
 createConfig
