@@ -1,18 +1,14 @@
 #! /bin/bash
 
 source variables.conf
-cd $ARCHIVE_HOME/src/
-mvn clean install >> $ARCHIVE_HOME/logs/regal-build.log
+
+git clone https://github.com/edoweb/regal-api.git $ARCHIVE_HOME/regal-api
+git clone https://github.com/edoweb/regal-import.git $ARCHIVE_HOME/regal-import
+
+cd $ARCHIVE_HOME/regal-api
+mvn clean install -DskipTests >> $ARCHIVE_HOME/logs/regal-build.log
 cd -
-cd $ARCHIVE_HOME/src/regal-mabconverter
-mvn clean install >> $ARCHIVE_HOME/logs/regal-build.log
-cd -
-cd $ARCHIVE_HOME/src/regal-archive
-mvn clean install >> $ARCHIVE_HOME/logs/regal-build.log
-cd-
-cd $ARCHIVE_HOME/src/regal-api
-mvn clean install
-cd -
-cd $ARCHIVE_HOME/src/
-mvn clean install >> $ARCHIVE_HOME/logs/regal-build.log
+
+cd $ARCHIVE_HOME/regal-import
+mvn clean install -DskipTests >> $ARCHIVE_HOME/logs/regal-build.log
 cd -

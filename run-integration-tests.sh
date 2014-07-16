@@ -2,6 +2,6 @@
 
 source variables.conf
 
-cd $ARCHIVE_HOME/src/regal-tests
+cd $ARCHIVE_HOME/regal-api
 mvn clean test
 cd -

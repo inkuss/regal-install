@@ -7,8 +7,7 @@ sudo service elasticsearch restart
 
 kill `ps -eaf|grep tomcat|awk '{print $2}'|head -1`
 
-
-cd $ARCHIVE_HOME/src/regal-api
+cd $ARCHIVE_HOME/regal-api
 kill `ps -eaf|grep regal-api|awk '{print $2}'|head -1`
 nohup $ARCHIVE_HOME/play-2.2.3/play start &
 cd -

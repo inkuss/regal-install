@@ -1,0 +1,12 @@
+language: java
+jdk: oraclejdk8
+
+install:
+ - mv variables.conf.tmpl variables.conf
+ - ./configure.sh
+ - ./install-all.sh
+ - ./copy-config.sh
+ - sudo cp ~/opt/regal/conf/elasticsearch.yml /etc/elasticsearch
+ - ./restart-all.sh
+ - ./run-integration-tests.sh
+
