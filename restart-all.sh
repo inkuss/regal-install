@@ -4,13 +4,19 @@ source variables.conf
 export FEDORA_HOME=$ARCHIVE_HOME/fedora
 
 sudo service elasticsearch restart
+sudo service apache2 restart
 
 kill `ps -eaf|grep tomcat|awk '{print $2}'|head -1`
 
+
 cd $ARCHIVE_HOME/regal-api
-kill `ps -eaf|grep regal-api|awk '{print $2}'|head -1`
-nohup $ARCHIVE_HOME/play-2.2.3/play start &
+$ARCHIVE_HOME/play-2.2.3/play dist
 cd -
 
+cd $ARCHIVE_HOME/regal-server
+kill `cat RUNNING_PID`
+nohup $ARCHIVE_HOME/regal-server/bin/regal-api &
+cd -
 
 $TOMCAT_HOME/bin/startup.sh
+

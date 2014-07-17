@@ -19,7 +19,7 @@ mkdir -v $ARCHIVE_HOME/bin
 mkdir -v -p $ARCHIVE_HOME/proai/cache
 mkdir -v -p $ARCHIVE_HOME/proai/sessions
 mkdir -v -p $ARCHIVE_HOME/proai/schemas
-ln -s $ARCHIVE_HOME/bin/variables.conf $ARCHIVE_HOME/bin/scripts/variables.conf
+ln -s ./variables.conf ./scripts/variables.conf
 }
 
 function createConfig()
@@ -59,6 +59,7 @@ sed -e "s,\$ARCHIVE_HOME,$ARCHIVE_HOME,g" \
 -e "s,\$TOMCAT_HOME,$TOMCAT_HOME,g" \
 -e "s,\$TOMCAT_CONF,$TOMCAT_CONF,g" \
 -e "s,\$ELASTICSEARCH_CONF,$ELASTICSEARCH_CONF,g" \
+-e "s,\$VERSION,$VERSION,g" \
 -e "s,\$ELASTICSEARCH_PORT,$ELASTICSEARCH_PORT,g" $file > $target
 }
 
