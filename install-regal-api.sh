@@ -17,6 +17,6 @@ cd -
 
 cd $ARCHIVE_HOME
 unzip regal-api/target/universal/regal-api-*.*zip -d tmp
-mv tmp/regal-api* regal-server
+mv tmp/regal-api*.*/* regal-server
 rmdir tmp
 cd -
