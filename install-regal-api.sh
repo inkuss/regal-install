@@ -16,7 +16,9 @@ mvn clean install -DskipTests >> $ARCHIVE_HOME/logs/regal-build.log
 cd -
 
 cd $ARCHIVE_HOME
-unzip regal-api/target/universal/regal-api-*.*zip -d tmp
-mv tmp/regal-api*.*/* regal-server
-rmdir tmp
+kill `cat $ARCHIVE_HOME/regal-server/RUNNING_PID`
+rm -rf regal-server
+unzip regal-api/target/universal/regal-api-*zip -d tmp
+mv tmp/regal-api* regal-server
+rm -rf tmp
 cd -

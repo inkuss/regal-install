@@ -4,7 +4,6 @@ source variables.conf
 export FEDORA_HOME=$ARCHIVE_HOME/fedora
 
 sudo service elasticsearch restart
-sudo service apache2 restart
 
 kill `ps -eaf|grep tomcat|awk '{print $2}'|head -1`
 
