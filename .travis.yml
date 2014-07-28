@@ -2,11 +2,19 @@ language: java
 jdk: oraclejdk8
 
 script:
+ - sudo apt-get install apache2
+ - sudo a2enmod proxy_mod
+ - sudo a2enmod proxy
+ - sudo a2enmod rewrite
+ - sudo a2enmod proxy_http
+ - sudo service apache2 restart
  - mv variables.conf.tmpl variables.conf
  - ./configure.sh
  - ./install-all.sh
  - ./copy-config.sh
  - sudo cp ~/opt/regal/conf/elasticsearch.yml /etc/elasticsearch
  - ./restart-all.sh
+ - sudo ln -s ~/opt/regal/conf/site.conf /etc/apache2/sites-enabled/
+ - sudo service apache2 restart
  - ./run-integration-tests.sh
 
