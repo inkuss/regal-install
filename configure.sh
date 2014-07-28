@@ -4,22 +4,23 @@ source variables.conf
 
 function makeDir()
 {
-echo "Create ARCHIVE_HOME $ARCHIVE_HOME"
-mkdir -v -p $ARCHIVE_HOME/regal-api
-mkdir -v -p $ARCHIVE_HOME/regal-import
-mkdir -v $ARCHIVE_HOME/sync
-mkdir -v $ARCHIVE_HOME/fedora
-if [ -n $MODULE ]
+if [ ! -d $1 ]
 then
-mkdir -v $ARCHIVE_HOME/${MODULE}base
+mkdir -v -p $1
 fi
-mkdir -v $ARCHIVE_HOME/logs
-mkdir -v $ARCHIVE_HOME/conf
-mkdir -v $ARCHIVE_HOME/bin
-mkdir -v -p $ARCHIVE_HOME/proai/cache
-mkdir -v -p $ARCHIVE_HOME/proai/sessions
-mkdir -v -p $ARCHIVE_HOME/proai/schemas
-ln -s ./variables.conf ./scripts/variables.conf
+}
+function makeDirs()
+{
+makeDir ARCHIVE_HOME/regal-api
+makeDir $ARCHIVE_HOME/regal-import
+makeDir $ARCHIVE_HOME/sync
+makeDir $ARCHIVE_HOME/fedora
+makeDir $ARCHIVE_HOME/logs
+makeDir $ARCHIVE_HOME/conf
+makeDir $ARCHIVE_HOME/proai/cache
+makeDir $ARCHIVE_HOME/proai/sessions
+makeDir $ARCHIVE_HOME/proai/schemas
+ln -s $ARCHIVE_HOME/regal-install/variables.conf $ARCHIVE_HOME/regal-install//scripts/variables.conf
 }
 
 function createConfig()
@@ -65,5 +66,5 @@ sed -e "s,\$ARCHIVE_HOME,$ARCHIVE_HOME,g" \
 
 
 
-makeDir 
+makeDirs
 createConfig
