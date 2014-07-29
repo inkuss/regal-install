@@ -6,7 +6,7 @@ if [ ! -d $ARCHIVE_HOME/regal-api ]
 then
 git clone https://github.com/edoweb/regal-api.git $ARCHIVE_HOME/regal-api 
 fi
-if [ ! -d $ARCHIVE_HOME/regal-import]
+if [ ! -d $ARCHIVE_HOME/regal-import ]
 then
 git clone https://github.com/edoweb/regal-import.git $ARCHIVE_HOME/regal-import
 fi
