@@ -6,6 +6,7 @@ script:
  - ./configure.sh
  - ./install-all.sh
  - ./copy-config.sh
+ - cp ~/opt/regal/conf/application.conf ~/opt/regal/regal-api/conf
  - sudo cp ~/opt/regal/conf/elasticsearch.yml /etc/elasticsearch
  - ./restart-all.sh
  - ./run-integration-tests.sh
