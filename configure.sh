@@ -20,7 +20,10 @@ makeDir $ARCHIVE_HOME/conf
 makeDir $ARCHIVE_HOME/proai/cache
 makeDir $ARCHIVE_HOME/proai/sessions
 makeDir $ARCHIVE_HOME/proai/schemas
-ln -s $ARCHIVE_HOME/regal-install/variables.conf $ARCHIVE_HOME/regal-install//scripts/variables.conf
+if [ ! -f $ARCHIVE_HOME/regal-install/scripts/variables.conf ]
+then
+ln -s $ARCHIVE_HOME/regal-install/variables.conf $ARCHIVE_HOME/regal-install/scripts/variables.conf
+fi
 }
 
 function createConfig()
@@ -39,6 +42,7 @@ substituteVars proai.properties $ARCHIVE_HOME/conf/proai.properties
 substituteVars robots.txt $ARCHIVE_HOME/conf/robots.txt
 substituteVars tomcat.conf $ARCHIVE_HOME/conf/tomcat.conf
 substituteVars application.conf $ARCHIVE_HOME/conf/application.conf
+substituteVars fedora.fcfg $ARCHIVE_HOME/conf/fedora.fcfg
 cp templates/favicon.ico $ARCHIVE_HOME/conf/favicon.ico
 }
 
