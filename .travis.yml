@@ -1,7 +1,7 @@
 language: java
 jdk: oraclejdk8
 
-script:
+before_script:
  - mv variables.conf.tmpl variables.conf
  - ./configure.sh
  - ./install-all.sh
@@ -9,4 +9,5 @@ script:
  - cp ~/opt/regal/conf/application.conf ~/opt/regal/regal-api/conf
  - sudo cp ~/opt/regal/conf/elasticsearch.yml /etc/elasticsearch
  - ./restart-all.sh
+ script:
  - ./run-integration-tests.sh

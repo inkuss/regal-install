@@ -14,7 +14,7 @@ echo "Install Elasticsearch"
 echo "Install Fedora"
 ./install-fedora.sh
 echo "Install Play2"
-./install-play.sh
+./install-play.sh > /dev/null 
 echo "Install Regal API"
 ./install-regal-api.sh
 }
