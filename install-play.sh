@@ -14,6 +14,6 @@ if [ -d $ARCHIVE_HOME/play-2.2.3 ]
 then
 	echo "Play2 already installed!"
 else
-	unzip play-2.2.3.zip -d $ARCHIVE_HOME
+	unzip play-2.2.3.zip -d $ARCHIVE_HOME 
 fi
 
