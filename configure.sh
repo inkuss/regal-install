@@ -11,8 +11,6 @@ fi
 }
 function makeDirs()
 {
-makeDir $ARCHIVE_HOME/regal-api
-makeDir $ARCHIVE_HOME/regal-import
 makeDir $ARCHIVE_HOME/sync
 makeDir $ARCHIVE_HOME/fedora
 makeDir $ARCHIVE_HOME/logs

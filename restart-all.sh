@@ -8,9 +8,9 @@ sudo service elasticsearch restart
 kill `ps -eaf|grep tomcat|awk '{print $2}'|head -1`
 
 
-cd $ARCHIVE_HOME/regal-api
-$ARCHIVE_HOME/play-2.2.3/play dist
-cd -
+#cd $ARCHIVE_HOME/regal-api
+#$ARCHIVE_HOME/play-2.2.3/play dist
+#cd -
 
 cd $ARCHIVE_HOME/regal-server
 kill `cat RUNNING_PID`
