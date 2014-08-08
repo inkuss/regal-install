@@ -1,9 +1,11 @@
 #! /bin/bash
 
+source variables.conf
+
 function buildModule
 {
-SRC=$ARCHIVE_HOME/src
-SYNCER_SRC=$ARCHIVE_HOME/src/${MODULE}-sync/target/${MODULE}sync.jar
+SRC=$ARCHIVE_HOME/regal-import
+SYNCER_SRC=$SRC/${MODULE}-sync/target/${MODULE}sync.jar
 SYNCER_DEST=$ARCHIVE_HOME/sync/${MODULE}sync.jar
 if [ -n "$MODULE" ]
 then
@@ -11,8 +13,8 @@ then
 	mvn install -DskipTests >> $ARCHIVE_HOME/logs/regal-build.log
 	cd -
 	echo "Generate Module $MODULE, templates can be found in $ARCHIVE_HOME/sync"
-	cd $ARCHIVE_HOME/src/${MODULE}-sync
-	mvn -q -e assembly:assembly -DskipTests --settings ../settings.xml >> $ARCHIVE_HOME/logs/regal-build.log
+	cd $SRC/${MODULE}-sync
+	mvn -q -e assembly:assembly -DskipTests >> $ARCHIVE_HOME/logs/regal-build.log
 	cd -
 	cp $SYNCER_SRC $SYNCER_DEST 
 	echo -e "#! /bin/bash" > ${NAMESPACE}Sync.sh.tmpl
