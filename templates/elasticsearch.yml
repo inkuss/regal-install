@@ -1,2 +1,2 @@
-cluster.name: $BACKEND
+cluster.name: $SERVER
 
