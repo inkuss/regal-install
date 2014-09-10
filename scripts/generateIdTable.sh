@@ -2,6 +2,6 @@
 
 source functions.sh
 
-$type=$1
+type=$1
 
 generateIdTable $type
