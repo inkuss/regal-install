@@ -6,7 +6,6 @@ before_script:
  - ./configure.sh
  - ./install-all.sh
  - ./copy-config.sh
- - cp ~/opt/regal/conf/application.conf conf
  - sudo cp ~/opt/regal/conf/elasticsearch.yml /etc/elasticsearch
  - ./restart-all.sh
 script:
