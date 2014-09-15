@@ -2,10 +2,8 @@
 #
 # Author: Jan Schnasse
 # schnasse@hbz-nrw.de
-#
 
 source variables.conf
-
 
 function install()
 {

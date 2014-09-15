@@ -632,7 +632,7 @@ https://wiki.duraspace.org/display/FEDORA36/Spring+Security
             evictor thread (if applicable). A value less than zero indicates 
             that ceil(numIdle)/abs(numTestsPerEvictionRun) will be run.</comment>
     </param>
-    <param name="dbUsername" value="$ARCHIVE_USER">
+    <param name="dbUsername" value="$FEDORA_USER">
       <comment>The database user name.</comment>
     </param>
     <param name="maxIdle" value="10">
@@ -668,7 +668,7 @@ https://wiki.duraspace.org/display/FEDORA36/Spring+Security
     <param name="jdbcDriverClass" value="org.apache.derby.jdbc.EmbeddedDriver">
       <comment>The JDBC driver class name.</comment>
     </param>
-    <param name="dbPassword" value="$ARCHIVE_PASSWORD">
+    <param name="dbPassword" value="$PASSWORD">
       <comment>The database password.</comment>
     </param>
     <param name="maxActive" value="100">
