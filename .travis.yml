@@ -8,5 +8,6 @@ before_script:
  - ./copy-config.sh
  - sudo cp ~/opt/regal/conf/elasticsearch.yml /etc/elasticsearch
  - ./restart-all.sh
+ - ./restart-all.sh
 script:
  - ./run-integration-tests.sh
