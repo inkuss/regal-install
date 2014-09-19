@@ -4,11 +4,11 @@ source variables.conf
 
 if [ ! -d $ARCHIVE_HOME/regal-api ]
 then
-git clone https://github.com/jschnasse/regal-api.git $ARCHIVE_HOME/regal-api 
+git clone https://github.com/edoweb/regal-api.git $ARCHIVE_HOME/regal-api 
 fi
 if [ ! -d $ARCHIVE_HOME/regal-import ]
 then
-git clone https://github.com/jschnasse/regal-import.git $ARCHIVE_HOME/regal-import
+git clone https://github.com/edoweb/regal-import.git $ARCHIVE_HOME/regal-import
 fi
 
 cd $ARCHIVE_HOME/regal-api
