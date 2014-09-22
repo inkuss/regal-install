@@ -8,5 +8,11 @@ before_script:
  - ./copy-config.sh
  - sudo cp ~/opt/regal/conf/elasticsearch.yml /etc/elasticsearch
  - ./restart-all.sh
+ - ./install-module.sh ../regal-import/edoweb-sync/src/main/resources/edoweb.conf
+ - cp templates/edowebSync.sh ../sync/edowebSync.sh
+ - cp templates/edowebVariables.conf ../sync/edowebVariables.conf
+ - cp templates/pidlist.txt ../sync/pidlist.txt
 script:
  - ./run-integration-tests.sh
+ - cd ../sync
+ - ./edowebSync.sh
