@@ -1,6 +1,6 @@
 #! /bin/bash
 
-source /home/cpt/local/opt/regal/sync/edowebVariables.conf
+source edowebVariables.conf
 export LANG=en_US.UTF-8
 
 cd $ARCHIVE_HOME/sync
