@@ -16,4 +16,3 @@ script:
  - ./run-integration-tests.sh
  - cd ~/opt/regal/sync
  - ./edowebSync.sh
- - tail -f edoweblog*
