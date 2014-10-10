@@ -1,0 +1,87 @@
+<VirtualHost *:80>
+        ServerName edoweb-rlp.de
+        ServerAlias edoweb-rlp.de
+        ServerAdmin edoweb-admin@hbz-nrw.de
+    DocumentRoot /opt/regal/drupal
+    <Directory "/">
+    	Options FollowSymLinks
+    	AllowOverride None
+    </Directory>
+    <Directory "/opt/regal/drupal">
+               Options Indexes FollowSymLinks
+               AllowOverride All
+               Require all granted
+    </Directory>
+    <Proxy http://localhost:8080>
+       <Limit GET POST PUT DELETE>
+           Require ip 127.0.0.1 85.214.84.191 193.30 10.1.2 10.1.1 193.175.100.47
+     </Limit>
+    </Proxy>
+    ProxyPassMatch ^/resource/(.*)/data http://localhost:8080/fedora/objects/$1/datastreams/data/content
+    ProxyPassReverse ^/resource/(.*)/data http://localhost:8080/fedora/objects/$1/datastreams/data/content
+
+</VirtualHost>
+
+<VirtualHost *:80>
+    ServerName api.edoweb-rlp.de
+    ServerAlias api.edoweb-rlp.de
+    ServerAdmin edoweb-admin@hbz-nrw.de
+    DocumentRoot /opt/regal/html
+    <Location "/">
+               Options Indexes FollowSymLinks
+               Require ip 127.0.0.1 85.214.84.191 193.30 10.1.2 10.1.1 193.175.100.47
+    </Location>
+
+    ProxyPreserveHost On
+
+    RewriteEngine on
+
+    RewriteRule ^/fedora(.*) http://localhost:8080/fedora$1 [P]
+    RewriteRule ^/resource(.*) http://localhost:8080/api/resource$1 [P]
+    RewriteRule ^/utils(.*)  http://localhost:8080/api/utils$1 [P]
+    RewriteRule ^/dnb-urn(.*)  http://localhost:8080/dnb-urn$1 [P]
+    RewriteRule ^/aleph-oai(.*)  http://localhost:8080/aleph-oai$1 [P]
+    RewriteRule ^/monograph  http://localhost:8080/api/resource?type=monograph [P]
+    RewriteRule ^/journal  http://localhost:8080/api/resource?type=journal [P]
+
+
+    <Proxy http://localhost:9200>
+       <Limit POST PUT DELETE>
+              Require ip 127.0.0.1 85.214.84.191 193.30 10.1.2 10.1.1 
+      </Limit>
+    </Proxy>
+    ProxyPass /search http://localhost:9200
+    ProxyPassReverse /search /search http://localhost:$ELASTICSEARCH
+</VirtualHost>
+
+
+<VirtualHost *:80>
+        ServerName stats.edoweb-rlp.de
+        ServerAlias stats.edoweb-rlp.de
+        ServerAdmin edoweb-admin@hbz-nrw.de
+   	DocumentRoot /opt/regal/piwik
+        <Directory "/">
+            Options Indexes FollowSymLinks
+            Require all granted 
+	</Directory>
+
+</VirtualHost>
+
+
+<VirtualHost *:80>
+        ServerName api.test.edoweb-rlp.de
+        ServerAlias api.test.edoweb-rlp.de
+        ServerAdmin edoweb-admin@hbz-nrw.de
+    	RewriteEngine on
+	RewriteRule ^(.*) http://api.edoweb-test.hbz-nrw.de$1 [P]
+</VirtualHost>
+
+
+<VirtualHost *:80>
+        ServerName test.edoweb-rlp.de
+        ServerAlias test.edoweb-rlp.de
+        ServerAdmin edoweb-admin@hbz-nrw.de
+    	RewriteEngine on
+	RewriteRule ^(.*) http://edoweb-test.hbz-nrw.de$1 [P]
+</VirtualHost>
+
