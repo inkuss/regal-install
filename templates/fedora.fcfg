@@ -632,7 +632,7 @@ https://wiki.duraspace.org/display/FEDORA36/Spring+Security
             evictor thread (if applicable). A value less than zero indicates 
             that ceil(numIdle)/abs(numTestsPerEvictionRun) will be run.</comment>
     </param>
-    <param name="dbUsername" value="$ARCHIVE_USER">
+    <param name="dbUsername" value="$FEDORA_USER">
       <comment>The database user name.</comment>
     </param>
     <param name="maxIdle" value="10">
@@ -661,14 +661,14 @@ https://wiki.duraspace.org/display/FEDORA36/Spring+Security
       <comment>When true, objects are validated before returned to the 
             pool.</comment>
     </param>
-    <param name="jdbcURL" value="jdbc:derby:/opt/regal/fedora/derby/fedora3;create=true">
+    <param name="jdbcURL" value="jdbc:derby:$ARCHIVE_HOME/fedora/derby/fedora3;create=true">
       <comment>The JDBC connection URL.</comment>
     </param>
     <param name="ddlConverter" value="org.fcrepo.server.utilities.DerbyDDLConverter"/>
     <param name="jdbcDriverClass" value="org.apache.derby.jdbc.EmbeddedDriver">
       <comment>The JDBC driver class name.</comment>
     </param>
-    <param name="dbPassword" value="$ARCHIVE_PASSWORD">
+    <param name="dbPassword" value="$PASSWORD">
       <comment>The database password.</comment>
     </param>
     <param name="maxActive" value="100">

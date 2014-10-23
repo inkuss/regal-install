@@ -49,8 +49,9 @@ function substituteVars()
 file=templates/$1
 target=$2
 sed -e "s,\$ARCHIVE_HOME,$ARCHIVE_HOME,g" \
--e "s,\$ARCHIVE_USER,$ARCHIVE_USER,g" \
--e "s,\$ARCHIVE_PASSWORD,$ARCHIVE_PASSWORD,g" \
+-e "s,\$FEDORA_USER,$FEDORA_USER,g" \
+-e "s,\$API_USER,$API_USER,g" \
+-e "s,\$PASSWORD,$PASSWORD,g" \
 -e "s,\$SERVER,$SERVER,g" \
 -e "s,\$BACKEND,$BACKEND,g" \
 -e "s,\$FRONTEND,$FRONTEND,g" \

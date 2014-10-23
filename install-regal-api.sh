@@ -14,6 +14,7 @@ fi
 cd $ARCHIVE_HOME/regal-api
 git checkout $VERSION
 mvn clean install -DskipTests >> $ARCHIVE_HOME/logs/regal-build.log
+$ARCHIVE_HOME/play-2.2.3/play clean
 $ARCHIVE_HOME/play-2.2.3/play dist
 cd -
 git checkout $VERSION

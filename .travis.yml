@@ -6,8 +6,13 @@ before_script:
  - ./configure.sh
  - ./install-all.sh
  - ./copy-config.sh
- - cp ~/opt/regal/conf/application.conf ~/opt/regal/regal-api/conf
  - sudo cp ~/opt/regal/conf/elasticsearch.yml /etc/elasticsearch
  - ./restart-all.sh
+ - ./install-module.sh ~/opt/regal/regal-import/edoweb-sync/src/main/resources/edoweb.conf
+ - cp templates/edowebSync.sh ~/opt/regal/sync/edowebSync.sh
+ - cp templates/edowebVariables.conf ~/opt/regal/sync/edowebVariables.conf
+ - cp templates/pidlist.txt ~/opt/regal/sync/pidlist.txt
 script:
  - ./run-integration-tests.sh
+ - cd ~/opt/regal/sync
+ - ./edowebSync.sh

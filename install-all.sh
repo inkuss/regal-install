@@ -2,10 +2,8 @@
 #
 # Author: Jan Schnasse
 # schnasse@hbz-nrw.de
-#
 
 source variables.conf
-
 
 function install()
 {
@@ -15,8 +13,8 @@ echo "Install Fedora"
 ./install-fedora.sh
 echo "Install Play2"
 ./install-play.sh > /dev/null 
-#echo "Install Regal API"
-#./install-regal-api.sh
+echo "Install Regal API"
+./install-regal-api.sh
 }
 
 install
