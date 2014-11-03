@@ -7,6 +7,7 @@ before_script:
  - ./install-all.sh
  - ./copy-config.sh
  - sudo cp ~/local/opt/regal/conf/elasticsearch.yml /etc/elasticsearch
+ - ./install-elasticsearch.sh
  - ./restart-all.sh
  - ./install-module.sh ~/local/opt/regal/regal-import/edoweb-sync/src/main/resources/edoweb.conf
  - cp templates/edowebSync.sh ~/local/opt/regal/sync/edowebSync.sh
