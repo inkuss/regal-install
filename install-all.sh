@@ -7,8 +7,8 @@ source variables.conf
 
 function install()
 {
-echo "Install Elasticsearch"
-./install-elasticsearch.sh
+#echo "Install Elasticsearch"
+#./install-elasticsearch.sh
 echo "Install Fedora"
 ./install-fedora.sh
 echo "Install Play2"

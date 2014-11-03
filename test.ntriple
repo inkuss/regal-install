@@ -1,1 +1,1 @@
-<test:1234> <http://iflastandards.info/ns/isbd/elements/P1004> "Title of the resource"^^<http://www.w3.org/2001/XMLSchema#string> .
+<test:1234> <http://iflastandards.info/ns/isbd/elements/P1004> "Title of the resource. Test encoding with an Ümlaut"^^<http://www.w3.org/2001/XMLSchema#string> .
