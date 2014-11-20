@@ -10,7 +10,7 @@ if [ -f RUNNING_PID ]
 then
 kill `cat RUNNING_PID`
 fi
-nohup $ARCHIVE_HOME/regal-server/bin/regal-api &
+nohup $ARCHIVE_HOME/regal-server/bin/regal-api -Dconfig.file=$ARCHIVE_HOME/regal-server/conf/application.conf &
 cd -
 
 kill `ps -eaf|grep tomcat|awk '{print $2}'|head -1`
