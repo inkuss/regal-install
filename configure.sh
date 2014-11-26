@@ -41,11 +41,15 @@ substituteVars robots.txt $ARCHIVE_HOME/conf/robots.txt
 substituteVars tomcat.conf $ARCHIVE_HOME/conf/tomcat.conf
 substituteVars application.conf $ARCHIVE_HOME/conf/application.conf
 substituteVars fedora.fcfg $ARCHIVE_HOME/conf/fedora.fcfg
+substituteVars tomcat6 $ARCHIVE_HOME/conf/tomcat6
+substituteVars tomcat7 $ARCHIVE_HOME/conf/tomcat7
+substituteVars regal-api $ARCHIVE_HOME/conf/regal-api
 cp templates/favicon.ico $ARCHIVE_HOME/conf/favicon.ico
 }
 
 function substituteVars()
 {
+PLAY_SECRET=`uuidgen`
 file=templates/$1
 target=$2
 sed -e "s,\$ARCHIVE_HOME,$ARCHIVE_HOME,g" \
@@ -64,6 +68,9 @@ sed -e "s,\$ARCHIVE_HOME,$ARCHIVE_HOME,g" \
 -e "s,\$TOMCAT_CONF,$TOMCAT_CONF,g" \
 -e "s,\$ELASTICSEARCH_CONF,$ELASTICSEARCH_CONF,g" \
 -e "s,\$VERSION,$VERSION,g" \
+-e "s,\$REGAL_USER,$REGAL_USER,g" \
+-e "s,\$PLAY_SECRET,$PLAY_SECRET,g" \
+-e "s,\$REGAL_GROUP,$REGAL_GROUP,g" \
 -e "s,\$ELASTICSEARCH_PORT,$ELASTICSEARCH_PORT,g" $file > $target
 }
 
