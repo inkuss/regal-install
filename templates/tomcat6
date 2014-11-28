@@ -23,11 +23,11 @@
 set -e
 
 PATH=/bin:/usr/bin:/sbin:/usr/sbin
-NAME="$(basename "$0" | sed 's/^[KS][0-9]\{2\}//')"
+NAME="tomcat6"
 DESC="Tomcat servlet engine"
 DEFAULT=/etc/default/$NAME
 JVM_TMP=/tmp/tomcat6-$NAME-tmp
-
+JAVA_HOME=/opt/java
 if [ `id -u` -ne 0 ]; then
 	echo "You need root privileges to run this script"
 	exit 1
@@ -47,9 +47,6 @@ fi
 
 # The following variables can be overwritten in $DEFAULT
 
-# Run Tomcat 6 as this user ID and group ID
-TOMCAT6_USER=tomcat6
-TOMCAT6_GROUP=tomcat6
 
 # this is a work-around until there is a suitable runtime replacement 
 # for dpkg-architecture for arch:all packages
@@ -87,11 +84,12 @@ for jdir in $JDK_DIRS; do
 done
 export JAVA_HOME
 
-# Directory where the Tomcat 6 binary distribution resides
-CATALINA_HOME=/usr/share/tomcat6
 
+# Directory where the Tomcat 6 binary distribution resides
+CATALINA_HOME=$ARCHIVE_HOME/fedora/tomcat
+ 
 # Directory for per-instance configuration files and webapps
-CATALINA_BASE=/var/lib/$NAME
+CATALINA_BASE=$CATALINA_HOME
 
 # Use the Java security manager? (yes/no)
 TOMCAT6_SECURITY=no
@@ -171,9 +169,9 @@ catalina_sh() {
 	# Run the catalina.sh script as a daemon
 	set +e
 	touch "$CATALINA_PID" "$CATALINA_BASE"/logs/catalina.out
-	chown $TOMCAT6_USER "$CATALINA_PID" "$CATALINA_BASE"/logs/catalina.out
-	start-stop-daemon --start -b -u "$TOMCAT6_USER" -g "$TOMCAT6_GROUP" \
-		-c "$TOMCAT6_USER" -d "$CATALINA_TMPDIR" -p "$CATALINA_PID" \
+	chown $REGAL_USER "$CATALINA_PID" "$CATALINA_BASE"/logs/catalina.out
+	start-stop-daemon --start -b -u "$REGAL_USER" -g "$REGAL_GROUP" \
+		-c "$REGAL_USER" -d "$CATALINA_TMPDIR" -p "$CATALINA_PID" \
 		-x /bin/bash -- -c "$AUTHBIND_COMMAND $TOMCAT_SH"
 	status="$?"
 	set +a -e
@@ -194,16 +192,16 @@ case "$1" in
 
 	log_daemon_msg "Starting $DESC" "$NAME"
 	if start-stop-daemon --test --start --pidfile "$CATALINA_PID" \
-		--user $TOMCAT6_USER --exec "$JAVA_HOME/bin/java" \
+		--user $REGAL_USER --exec "$JAVA_HOME/bin/java" \
 		>/dev/null; then
 
 		# Regenerate POLICY_CACHE file
-		umask 022
-		echo "// AUTO-GENERATED FILE from /etc/tomcat6/policy.d/" \
-			> "$POLICY_CACHE"
-		echo ""  >> "$POLICY_CACHE"
-		cat $CATALINA_BASE/conf/policy.d/*.policy \
-			>> "$POLICY_CACHE"
+	#	umask 022
+	#	echo "// AUTO-GENERATED FILE from /etc/tomcat6/policy.d/" \
+	#		> "$POLICY_CACHE"
+	#	echo ""  >> "$POLICY_CACHE"
+	#	cat $CATALINA_BASE/conf/policy.d/*.policy \
+	#		>> "$POLICY_CACHE"
 
 		# Remove / recreate JVM_TMP directory
 		rm -rf "$JVM_TMP"
@@ -211,12 +209,12 @@ case "$1" in
 			log_failure_msg "could not create JVM temporary directory"
 			exit 1
 		}
-		chown $TOMCAT6_USER "$JVM_TMP"
+		chown $REGAL_USER "$JVM_TMP"
 
 		catalina_sh start $SECURITY
 		sleep 5
         	if start-stop-daemon --test --start --pidfile "$CATALINA_PID" \
-			--user $TOMCAT6_USER --exec "$JAVA_HOME/bin/java" \
+			--user $REGAL_USER --exec "$JAVA_HOME/bin/java" \
 			>/dev/null; then
 			if [ -f "$CATALINA_PID" ]; then
 				rm -f "$CATALINA_PID"
@@ -236,7 +234,7 @@ case "$1" in
 	set +e
 	if [ -f "$CATALINA_PID" ]; then 
 		start-stop-daemon --stop --pidfile "$CATALINA_PID" \
-			--user "$TOMCAT6_USER" \
+			--user "$REGAL_USER" \
 			--retry=TERM/20/KILL/5 >/dev/null
 		if [ $? -eq 1 ]; then
 			log_progress_msg "$DESC is not running but pid file exists, cleaning up"
@@ -256,7 +254,7 @@ case "$1" in
    status)
 	set +e
 	start-stop-daemon --test --start --pidfile "$CATALINA_PID" \
-		--user $TOMCAT6_USER --exec "$JAVA_HOME/bin/java" \
+		--user $REGAL_USER --exec "$JAVA_HOME/bin/java" \
 		>/dev/null 2>&1
 	if [ "$?" = "0" ]; then
 
@@ -281,7 +279,7 @@ case "$1" in
 	;;
   try-restart)
         if start-stop-daemon --test --start --pidfile "$CATALINA_PID" \
-		--user $TOMCAT6_USER --exec "$JAVA_HOME/bin/java" \
+		--user $REGAL_USER --exec "$JAVA_HOME/bin/java" \
 		>/dev/null; then
 		$0 start
 	fi
