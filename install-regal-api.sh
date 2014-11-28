@@ -12,7 +12,6 @@ git clone https://github.com/edoweb/regal-import.git $ARCHIVE_HOME/regal-import
 fi
 
 cd $ARCHIVE_HOME/regal-api
-git checkout $VERSION
 mvn clean install -DskipTests >> $ARCHIVE_HOME/logs/regal-build.log
 $ARCHIVE_HOME/play-2.2.3/play clean
 $ARCHIVE_HOME/play-2.2.3/play dist

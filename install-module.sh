@@ -11,7 +11,6 @@ SYNCER_DEST=$ARCHIVE_HOME/sync/${MODULE}sync.jar
 if [ -n "$MODULE" ]
 then
 	cd $SRC
-	git checkout $VERSION
 	mvn install -DskipTests >> $ARCHIVE_HOME/logs/regal-build.log
 	cd -
 	echo "Generate Module $MODULE, templates can be found in $ARCHIVE_HOME/sync"
