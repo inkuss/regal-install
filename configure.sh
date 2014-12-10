@@ -45,6 +45,30 @@ substituteVars tomcat6 $ARCHIVE_HOME/conf/tomcat6
 substituteVars tomcat7 $ARCHIVE_HOME/conf/tomcat7
 substituteVars regal-api $ARCHIVE_HOME/conf/regal-api
 cp templates/favicon.ico $ARCHIVE_HOME/conf/favicon.ico
+
+if [ ! -f $ARCHIVE_HOME/conf/regal-api-ssl.key ]
+then
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout  $ARCHIVE_HOME/conf/regal-api-ssl.key -out  $ARCHIVE_HOME/conf/regal-api-ssl.crt -subj "/C=GE/ST=Berlin/L=Berlin/O=regal/OU=repos/CN=$BACKEND"
+fi
+
+if [ ! -f $ARCHIVE_HOME/conf/regal-drupal-ssl.key ]
+then
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout  $ARCHIVE_HOME/conf/regal-drupal-ssl.key -out  $ARCHIVE_HOME/conf/regal-drupal-ssl.crt -subj "/C=GE/ST=Berlin/L=Berlin/O=regal/OU=repos/CN=$FRONTEND"
+substituteVars site.ssl.conf $ARCHIVE_HOME/conf/site.ssl.conf
+fi
+
+rm $ARCHIVE_HOME/conf/regal_keystore
+
+keytool -genkey -noprompt \
+ -alias regal \
+ -dname "CN=$FRONTEND, OU=repos, O=regal, L=BERLIN, S=BERLIN, C=GE" \
+ -keystore $ARCHIVE_HOME/conf/regal_keystore \
+ -storepass ${PASSWORD}123 \
+ -keypass ${PASSWORD}123
+
+keytool -import -trustcacerts -alias regal-drupal -file $ARCHIVE_HOME/conf/regal-drupal-ssl.crt -storepass ${PASSWORD}123 -keypass ${PASSWORD}123 -keystore $ARCHIVE_HOME/conf/regal_keystore -noprompt
+
+keytool -import -trustcacerts -alias regal-api -file $ARCHIVE_HOME/conf/regal-api-ssl.crt  -storepass ${PASSWORD}123 -keypass ${PASSWORD}123 -keystore $ARCHIVE_HOME/conf/regal_keystore -noprompt
 }
 
 function substituteVars()
@@ -71,10 +95,12 @@ sed -e "s,\$ARCHIVE_HOME,$ARCHIVE_HOME,g" \
 -e "s,\$REGAL_USER,$REGAL_USER,g" \
 -e "s,\$PLAY_SECRET,$PLAY_SECRET,g" \
 -e "s,\$REGAL_GROUP,$REGAL_GROUP,g" \
+-e "s,\$SSL_PUBLIC_CERT_BACKEND,$SSL_PUBLIC_CERT_BACKEND,g" \
+-e "s,\$SSL_PRIVATE_KEY_BACKEND,$SSL_PRIVATE_KEY_BACKEND,g" \
+-e "s,\$SSL_PUBLIC_CERT_FRONTEND,$SSL_PUBLIC_CERT_FRONTEND,g" \
+-e "s,\$SSL_PRIVATE_KEY_FRONTEND,$SSL_PRIVATE_KEY_FRONTEND,g" \
 -e "s,\$ELASTICSEARCH_PORT,$ELASTICSEARCH_PORT,g" $file > $target
 }
-
-
 
 makeDirs
 createConfig
