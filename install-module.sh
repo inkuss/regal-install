@@ -4,39 +4,42 @@ source variables.conf
 
 function buildModule
 {
-SRC=$ARCHIVE_HOME/regal-import
-
-SYNCER_SRC=$SRC/${MODULE}-sync/target/${MODULE}sync.jar
-SYNCER_DEST=$ARCHIVE_HOME/sync/${MODULE}sync.jar
-if [ -n "$MODULE" ]
-then
-	cd $SRC
-	mvn install -DskipTests >> $ARCHIVE_HOME/logs/regal-build.log
-	cd -
-	echo "Generate Module $MODULE, templates can be found in $ARCHIVE_HOME/sync"
-	cd $SRC/${MODULE}-sync
-	mvn -q -e assembly:assembly -DskipTests >> $ARCHIVE_HOME/logs/regal-build.log
-	cd -
-	cp $SYNCER_SRC $SYNCER_DEST 
-	echo -e "#! /bin/bash" > ${NAMESPACE}Sync.sh.tmpl
-	echo -e "" >> ${NAMESPACE}Sync.sh.tmpl
-	echo -e "source $ARCHIVE_HOME/sync/${NAMESPACE}Variables.conf" >> ${NAMESPACE}Sync.sh.tmpl
-	echo -e "export LANG=en_US.UTF-8" >> ${NAMESPACE}Sync.sh.tmpl
-	echo -e "" >> ${NAMESPACE}Sync.sh.tmpl
-	echo -e "cd \$ARCHIVE_HOME/sync" >> ${NAMESPACE}Sync.sh.tmpl
-	echo -e "" >> ${NAMESPACE}Sync.sh.tmpl
-	echo -e "cp .oaitimestamp\$NAMESPACE oaitimestamp\${NAMESPACE}\`date +\"%Y%m%d\"\`" >> ${NAMESPACE}Sync.sh.tmpl
-	echo -e "" >> ${NAMESPACE}Sync.sh.tmpl
-	echo -e "java -jar -Xms512m -Xmx512m \${MODULE}sync.jar --mode INIT -list \$ARCHIVE_HOME/sync/pidlist.txt --user \$REGAL_USER --password \$REGAL_PASSWORD --dtl \$DOWNLOAD --cache \$ARCHIVE_HOME/\${NAMESPACE}base --oai  \$OAI --set \$SET --timestamp .oaitimestamp\$NAMESPACE --fedoraBase http://\$SERVER:\$TOMCAT_PORT/fedora --host \$BACKEND --namespace \$NAMESPACE >> ${NAMESPACE}log\`date +\"%Y%m%d\"\`.txt 2>&1" >> ${NAMESPACE}Sync.sh.tmpl
-	echo -e "" >> ${NAMESPACE}Sync.sh.tmpl
-	echo -e "cd -" >> ${NAMESPACE}Sync.sh.tmpl
-
-	mv ${NAMESPACE}Sync.sh.tmpl $ARCHIVE_HOME/sync
-	cat $MODULE_CONF variables.conf > $ARCHIVE_HOME/sync/${NAMESPACE}Variables.conf.tmpl
-fi
+cd $SRC
+mvn install -DskipTests >> $ARCHIVE_HOME/logs/regal-build.log
+cd -
+echo "Generate Module $MODULE, templates can be found in $ARCHIVE_HOME/sync"
+cd $SRC/${MODULE}-sync
+mvn -q -e assembly:assembly -DskipTests >> $ARCHIVE_HOME/logs/regal-build.log
+cd - 
 }
 
+function substituteVars()
+{
+file=templates/$1
+target=$2
+sed -e "s,\$ARCHIVE_HOME,$ARCHIVE_HOME,g" \
+-e "s,\${NAMESPACE},$NAMESPACE,g" $file > $target
+}
+
+function buildStartScript
+{
+substituteVars sync.sh $ARCHIVE_HOME/sync/${NAMESPACE}Sync.sh.tmpl
+}
+
+function copy
+{
+cp $SYNCER_SRC $SYNCER_DEST
+cp $MODULE_CONF $ARCHIVE_HOME/sync/${NAMESPACE}Variables.conf.tmpl
+echo -e "TOMCAT_PORT=$TOMCAT_PORT\nSERVER=$SERVER\nBACKEND=$BACKEND" >>  $ARCHIVE_HOME/sync/${NAMESPACE}Variables.conf.tmpl
+}
 
 MODULE_CONF=$1
 source $MODULE_CONF
+SRC=$ARCHIVE_HOME/regal-import
+SYNCER_SRC=$SRC/${MODULE}-sync/target/${MODULE}sync.jar
+SYNCER_DEST=$ARCHIVE_HOME/sync/${MODULE}sync.jar
+
+
 buildModule
+buildStartScript
+copy
