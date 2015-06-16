@@ -31,10 +31,14 @@ PATH=/bin:/usr/bin:/sbin:/usr/sbin
 NAME=regal-api
 DESC="Regal Api"
 JAVA_HOME=/opt/java
+JAVA_OPTS="-XX:+HeapDumpOnOutOfMemoryError"
 HOME="$ARCHIVE_HOME/regal-server"
 USER="$REGAL_USER"
 GROUP="$REGAL_GROUP"
 SECRET="$PLAY_SECRET"
+
+export JAVA_HOME
+export JAVA_OPTS
 
 #Variables in accordance to standard play 2.2.x layout 
 DEFAULT=/etc/default/$NAME
