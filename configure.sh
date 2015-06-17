@@ -45,6 +45,7 @@ substituteVars tomcat6 $ARCHIVE_HOME/conf/tomcat6
 substituteVars tomcat7 $ARCHIVE_HOME/conf/tomcat7
 substituteVars regal-api $ARCHIVE_HOME/conf/regal-api
 cp templates/favicon.ico $ARCHIVE_HOME/conf/favicon.ico
+cp templates/datacite.cert $ARCHIVE_HOME/conf/datacite.cert
 
 if [ ! -f $ARCHIVE_HOME/conf/regal-api-ssl.key ]
 then
@@ -69,6 +70,9 @@ keytool -genkey -noprompt \
 keytool -import -trustcacerts -alias regal-drupal -file $ARCHIVE_HOME/conf/regal-drupal-ssl.crt -storepass ${PASSWORD}123 -keypass ${PASSWORD}123 -keystore $ARCHIVE_HOME/conf/regal_keystore -noprompt
 
 keytool -import -trustcacerts -alias regal-api -file $ARCHIVE_HOME/conf/regal-api-ssl.crt  -storepass ${PASSWORD}123 -keypass ${PASSWORD}123 -keystore $ARCHIVE_HOME/conf/regal_keystore -noprompt
+
+keytool -import -trustcacerts -alias datacite -file $ARCHIVE_HOME/conf/datacite.cert  -storepass ${PASSWORD}123 -keypass ${PASSWORD}123 -keystore $ARCHIVE_HOME/conf/regal_keystore -noprompt
+
 }
 
 function substituteVars()
@@ -99,6 +103,12 @@ sed -e "s,\$ARCHIVE_HOME,$ARCHIVE_HOME,g" \
 -e "s,\$SSL_PRIVATE_KEY_BACKEND,$SSL_PRIVATE_KEY_BACKEND,g" \
 -e "s,\$SSL_PUBLIC_CERT_FRONTEND,$SSL_PUBLIC_CERT_FRONTEND,g" \
 -e "s,\$SSL_PRIVATE_KEY_FRONTEND,$SSL_PRIVATE_KEY_FRONTEND,g" \
+-e "s,\$DATACITE_USER,$DATACITE_USER,g" \
+-e "s,\$DATACITE_PASSWORD,$DATACITE_PASSWORD,g" \
+-e "s,\$DOIPREFIX,$DOIPREFIX,g" \
+-e "s,\$URNSNID,$URNSNID,g" \
+-e "s,\$ALEPH_SETNAME,$ALEPH_SETNAME,g" \
+-e "s,\$INIT_NAMESPACE,$INIT_NAMESPACE,g" \
 -e "s,\$ELASTICSEARCH_PORT,$ELASTICSEARCH_PORT,g" $file > $target
 }
 
