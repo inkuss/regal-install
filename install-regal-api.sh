@@ -20,7 +20,7 @@ cd -
 cd $ARCHIVE_HOME
 kill `cat $ARCHIVE_HOME/regal-server/RUNNING_PID`
 unzip regal-api/target/universal/regal-api-*zip -d tmp
-mv regal-server $ARCHIVE_HOME/regal-server.`date  +"%Y%m%d"`
+mv regal-server $ARCHIVE_HOME/regal-server.`date  +"%Y%m%d%H%M"`
 mv tmp/regal-api* regal-server
 rm -rf tmp
 cd -
