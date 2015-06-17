@@ -12,7 +12,8 @@ before_script:
  - sudo chmod u+x /etc/init.d/tomcat6
  - sudo cp ./templates/regal-api /etc/init.d/
  - sudo chmod u+x /etc/init.d/regal-api
- - ./restart-all.sh
+ - sudo /etc/init.de/tomcat6 start
+ - sudo /etc/init.d/regal-api start
  - ./install-module.sh ~/local/opt/regal/regal-import/edoweb-sync/src/main/resources/edoweb.conf
  - cp templates/edowebSync.sh ~/local/opt/regal/sync/edowebSync.sh
  - cp templates/edowebVariables.conf ~/local/opt/regal/sync/edowebVariables.conf
