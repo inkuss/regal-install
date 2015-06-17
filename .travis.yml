@@ -8,6 +8,10 @@ before_script:
  - ./copy-config.sh
  - sudo cp ~/local/opt/regal/conf/elasticsearch.yml /etc/elasticsearch
  - ./install-elasticsearch.sh
+ - sudo cp ./templates/tomcat6 /etc/init.d/
+ - sudo chmod u+x /etc/init.d/tomcat6
+ - sudo cp ./templates/regal-api /etc/init.d/
+ - sudo chmod u+x /etc/init.d/regal-api
  - ./restart-all.sh
  - ./install-module.sh ~/local/opt/regal/regal-import/edoweb-sync/src/main/resources/edoweb.conf
  - cp templates/edowebSync.sh ~/local/opt/regal/sync/edowebSync.sh
