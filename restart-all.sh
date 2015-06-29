@@ -1,20 +1,8 @@
 #!/bin/bash 
 
 source variables.conf
-export FEDORA_HOME=$ARCHIVE_HOME/fedora
 
 sudo service elasticsearch restart
-
-cd $ARCHIVE_HOME/regal-server
-if [ -f RUNNING_PID ]
-then
-kill `cat RUNNING_PID`
-fi
-nohup $ARCHIVE_HOME/regal-server/bin/regal-api -Dconfig.file=$ARCHIVE_HOME/regal-server/conf/application.conf &
-cd -
-
-kill `ps -eaf|grep tomcat|awk '{print $2}'|head -1`
-sleep 10
-$TOMCAT_HOME/bin/startup.sh
-sleep 10
+sudo service tomcat6 restart
+sudo service regal-api restart
 
