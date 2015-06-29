@@ -44,6 +44,9 @@ substituteVars fedora.fcfg $ARCHIVE_HOME/conf/fedora.fcfg
 substituteVars tomcat6 $ARCHIVE_HOME/conf/tomcat6
 substituteVars tomcat7 $ARCHIVE_HOME/conf/tomcat7
 substituteVars regal-api $ARCHIVE_HOME/conf/regal-api
+substituteVars heritrix-start.sh $ARCHIVE_HOME/conf/heritrix-start.sh
+substituteVars heritrix $ARCHIVE_HOME/conf/heritrix
+
 cp templates/favicon.ico $ARCHIVE_HOME/conf/favicon.ico
 cp templates/datacite.cert $ARCHIVE_HOME/conf/datacite.cert
 
@@ -72,6 +75,8 @@ keytool -import -trustcacerts -alias regal-drupal -file $ARCHIVE_HOME/conf/regal
 keytool -import -trustcacerts -alias regal-api -file $ARCHIVE_HOME/conf/regal-api-ssl.crt  -storepass ${PASSWORD}123 -keypass ${PASSWORD}123 -keystore $ARCHIVE_HOME/conf/regal_keystore -noprompt
 
 keytool -import -trustcacerts -alias datacite -file $ARCHIVE_HOME/conf/datacite.cert  -storepass ${PASSWORD}123 -keypass ${PASSWORD}123 -keystore $ARCHIVE_HOME/conf/regal_keystore -noprompt
+
+keytool -keystore $ARCHIVE_HOME/conf/regal_keystore -storepass ${PASSWORD}123 -keypass ${PASSWORD}123 -alias heritrix -genkey -keyalg RSA -dname "CN=Heritrix Ad-Hoc HTTPS Certificate" -validity 3650
 
 }
 
@@ -112,7 +117,7 @@ sed -e "s,\$ARCHIVE_HOME,$ARCHIVE_HOME,g" \
 -e "s,\$DOIPREFIX,$DOIPREFIX,g" \
 -e "s,\$URNSNID,$URNSNID,g" \
 -e "s%\$ALEPH_SETNAME%$ALEPH_SETNAME%g" \
--e "s,\$INIT_NAMESPACE,$INIT_NAMESPACE,g" \
+-e "s%\$INIT_NAMESPACE%$INIT_NAMESPACE%g" \
 -e "s,\$ELASTICSEARCH_PORT,$ELASTICSEARCH_PORT,g" $file > $target
 }
 

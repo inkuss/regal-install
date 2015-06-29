@@ -11,6 +11,8 @@ function install()
 #./install-elasticsearch.sh
 echo "Install Fedora"
 ./install-fedora.sh
+echo "Install Heritrix"
+./install-heritrix.sh
 echo "Install Play2"
 ./install-play.sh > /dev/null 
 echo "Install Regal API"
