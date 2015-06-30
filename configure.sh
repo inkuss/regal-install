@@ -76,7 +76,12 @@ keytool -import -trustcacerts -alias regal-api -file $ARCHIVE_HOME/conf/regal-ap
 
 keytool -import -trustcacerts -alias datacite -file $ARCHIVE_HOME/conf/datacite.cert  -storepass ${PASSWORD}123 -keypass ${PASSWORD}123 -keystore $ARCHIVE_HOME/conf/regal_keystore -noprompt
 
-keytool -keystore $ARCHIVE_HOME/conf/regal_keystore -storepass ${PASSWORD}123 -keypass ${PASSWORD}123 -alias heritrix -genkey -keyalg RSA -dname "CN=localhost" -validity 3650
+
+keytool -list -alias heritrix -keystore /opt/regal/conf/regal_keystore -storepass ${PASSWORD}123 > /dev/null
+if (($? == 0)); then
+echo "Add new heritrix key!"
+  keytool -keystore $ARCHIVE_HOME/conf/regal_keystore -storepass ${PASSWORD}123 -keypass ${PASSWORD}123 -alias heritrix -genkey -keyalg RSA -dname "CN=localhost" -validity 3650
+fi
 
 }
 
