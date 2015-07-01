@@ -43,6 +43,7 @@ substituteVars application.conf $ARCHIVE_HOME/conf/application.conf
 substituteVars fedora.fcfg $ARCHIVE_HOME/conf/fedora.fcfg
 substituteVars tomcat6 $ARCHIVE_HOME/conf/tomcat6
 substituteVars tomcat7 $ARCHIVE_HOME/conf/tomcat7
+substituteVars openwayback $ARCHIVE_HOME/conf/openwayback
 substituteVars regal-api $ARCHIVE_HOME/conf/regal-api
 substituteVars heritrix-start.sh $ARCHIVE_HOME/conf/heritrix-start.sh
 substituteVars heritrix $ARCHIVE_HOME/conf/heritrix
