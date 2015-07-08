@@ -62,14 +62,15 @@ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout  $ARCHIVE_HOME/conf/
 substituteVars site.ssl.conf $ARCHIVE_HOME/conf/site.ssl.conf
 fi
 
-rm $ARCHIVE_HOME/conf/regal_keystore
-
+if [ ! -f $ARCHIVE_HOME/conf/regal_keystore ]
+then
 keytool -genkey -noprompt \
  -alias regal \
  -dname "CN=$FRONTEND, OU=repos, O=regal, L=BERLIN, S=BERLIN, C=GE" \
  -keystore $ARCHIVE_HOME/conf/regal_keystore \
  -storepass ${PASSWORD}123 \
  -keypass ${PASSWORD}123
+fi
 
 keytool -import -trustcacerts -alias regal-drupal -file $ARCHIVE_HOME/conf/regal-drupal-ssl.crt -storepass ${PASSWORD}123 -keypass ${PASSWORD}123 -keystore $ARCHIVE_HOME/conf/regal_keystore -noprompt
 
