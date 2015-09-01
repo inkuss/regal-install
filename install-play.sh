@@ -3,17 +3,17 @@
 source variables.conf
 
 
-if [ -f play-2.2.3.zip ]
+if [ -f typesafe-activator-1.3.5.zip ]
 then
-	echo "Play is already here! Stop downloading!"
+	echo "Activator is already here! Stop downloading!"
 else
-	wget http://downloads.typesafe.com/play/2.2.3/play-2.2.3.zip 
+	wget http://downloads.typesafe.com/typesafe-activator/1.3.5/typesafe-activator-1.3.5.zip
 fi
 
-if [ -d $ARCHIVE_HOME/play-2.2.3 ]
+if [ -d $ARCHIVE_HOME/activator-1.3.5 ]
 then
-	echo "Play2 already installed!"
+	echo "Activator already installed!"
 else
-	unzip play-2.2.3.zip -d $ARCHIVE_HOME 
+	unzip typesafe-activator-1.3.5.zip -d $ARCHIVE_HOME 
 fi
 
