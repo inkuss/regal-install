@@ -2,8 +2,9 @@
 
 source variables.conf
 
-INDEXNAME=edoweb
+INDEXNAME=frl
 PLAYPORT=9100
+
 curl -s -XGET localhost:9200/$INDEXNAME/issue,journal,monograph,volume,file/_search -d'{"query":{"match_all":{}},"fields":["/@id"],"size":"50000"}'|grep -o "edoweb:[^\"]*" >$ARCHIVE_HOME/logs/pids.txt
 
 
