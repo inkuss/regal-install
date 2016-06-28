@@ -2,6 +2,8 @@
 
 source variables.conf
 
+prot=https
+
 function pidlist()
 {
 server=$BACKEND
@@ -10,7 +12,7 @@ fromSrc=$2
 from=$3
 until=$4
 
-curl -u$ARCHIVE_USER:$ARCHIVE_PASSWORD -XGET "http://$server/resource?contentContentType=$contentType&src=$fromSrc&from=$from&until=$until" -H"accept:application/json" 2> /dev/null| sed s/"{\"list\":"/""/g | sed s/"\,"/"\n"/g | sed s/"\"\([^\"]*\)".*/"\1"/g | sed s/"^\["/""/g
+curl -u$ARCHIVE_USER:$ARCHIVE_PASSWORD -XGET "$prot://$server/resource?contentContentType=$contentType&src=$fromSrc&from=$from&until=$until" -H"accept:application/json" 2> /dev/null| sed s/"{\"list\":"/""/g | sed s/"\,"/"\n"/g | sed s/"\"\([^\"]*\)".*/"\1"/g | sed s/"^\["/""/g
 echo
 }
 
@@ -22,7 +24,7 @@ password=$ARCHIVE_PASSWORD
 server=$BACKEND
 for i in `pidlist $contentType repo 0 10000`
 do
-curl -s -u${user}:${password} -XPOST "http://$server/utils/index/$i?contentType=$contentType";echo
+curl -s -u${user}:${password} -XPOST "$prot://$server/utils/index/$i?contentType=$contentType";echo
 done
 }
 
@@ -34,7 +36,7 @@ password=$ARCHIVE_PASSWORD
 server=$BACKEND
 for i in `pidlist $contentType repo 0 10000`
 do
-curl -s -u ${user}:${password} -XPOST "http://$server/utils/publicIndex/$i?contentType=$contentType";echo
+curl -s -u ${user}:${password} -XPOST "$prot://$server/utils/publicIndex/$i?contentType=$contentType";echo
 done
 }
 
@@ -46,7 +48,7 @@ password=$ARCHIVE_PASSWORD
 server=$BACKEND
 for i in `pidlist $contentType repo 0 10000`
 do
-curl -s -u ${user}:${password} -XDELETE "http://$server/resource/$i";echo
+curl -s -u ${user}:${password} -XDELETE "$prot://$server/resource/$i";echo
 done
 }
 
@@ -59,7 +61,7 @@ password=$ARCHIVE_PASSWORD
 server=$BACKEND
 for i in `pidlist $contentType repo 0 10000`
 do
-curl -s -u ${user}:${password} -XPOST "http://$server/utils/lobidify/$i";echo
+curl -s -u ${user}:${password} -XPOST "$prot://$server/utils/lobidify/$i";echo
 done
 }
 
@@ -76,11 +78,11 @@ for i in $list
 do
 
 ntriple=`curl -s $api/resource/${i}.rdf -H"accept:text/plain"`;
-aleph=`echo $ntriple | grep -o "http://purl.org/lobid/lv#hbzID[^\^]*"|sed s/"http.*>"/""/|sed s/"\""/""/g`
-urn=`echo $ntriple | grep -o "http://purl.org/lobid/lv#urn[^\.]*"|sed s/"http.*>"/""/|sed s/"\""/""/g| sed s/"\^\^.*"/""/`
+aleph=`echo $ntriple | grep -o "$prot://purl.org/lobid/lv#hbzID[^\^]*"|sed s/"$prot.*>"/""/|sed s/"\""/""/g`
+urn=`echo $ntriple | grep -o "$prot://purl.org/lobid/lv#urn[^\.]*"|sed s/"$prot.*>"/""/|sed s/"\""/""/g| sed s/"\^\^.*"/""/`
 doi=`echo $ntriple | grep -o "dx\.doi\.org/[^\>]*"| head -n 1`
 
-uri=http://$host/resource/${i}
+uri=$prot://$host/resource/${i}
 
 echo "| $aleph | $urn | $doi | $uri |"
 
@@ -94,7 +96,7 @@ contentType=$1
 server=$BACKEND
 
 pidlist=`pidlist $contentType repo 0 10000`
-for i in $pidlist;do TT=`curl -s http://${server}/fedora/objects/$i/datastreams/DC/content|grep -o "HT[^<]*\|TT[^<]*"`; echo $i,$TT;done >tmp
+for i in $pidlist;do TT=`curl -s $prot://${server}/fedora/objects/$i/datastreams/DC/content|grep -o "HT[^<]*\|TT[^<]*"`; echo $i,$TT;done >tmp
 
 sort tmp |uniq
 rm tmp
@@ -129,14 +131,14 @@ while read line
 do
 pid=`echo $line|grep -o -m1 "^[^,]*"`
 urn=`echo $line|grep -o -m1 "urn:nbn:de:hbz:929.*$"`
-cout=`curl -s -I http://nbn-resolving.org/$urn`
-out=`echo $cout | grep -o "HTTP........"`
+cout=`curl -s -I $prot://nbn-resolving.org/$urn`
+out=`echo $cout | grep -o "$PROT........"`
 test=`echo $cout |grep -o "307\|200"`
 if [ $? -eq 0 ]
 then
-echo "http://$host/resource/$pid , http://nbn-resolving.org/$urn , $out , Success"
+echo "$prot://$host/resource/$pid , $prot://nbn-resolving.org/$urn , $out , Success"
 else
-echo "http://$host/resource/$pid , http://nbn-resolving.org/$urn , $out , ERROR"
+echo "$prot://$host/resource/$pid , $prot://nbn-resolving.org/$urn , $out , ERROR"
 fi
 done <pid2urn.sorted.txt
 }
@@ -151,14 +153,14 @@ pid2urn $contentType >pid2urn.sorted.txt
 while read line
 do
 pid=`echo $line|grep -o -m1 "^[^,]*"`
-cout=`curl -s -i "http://$BACKEND/dnb-urn/?verb=GetRecord&metadataPrefix=oai_dc&identifier=http://$BACKEND/resource/$pid"`
+cout=`curl -s -i "$prot://$BACKEND/dnb-urn/?verb=GetRecord&metadataPrefix=oai_dc&identifier=$prot://$BACKEND/resource/$pid"`
 out=`echo $cout | grep -o "code=.............."`
 test=`echo $cout |grep -o "dc:identifier"`
 if [ $? -eq 0 ]
 then
-echo "http://$host/resource/$pid , http://api.$host/dnb-urn/?verb=GetRecord&metadataPrefix=oai_dc&identifier=http://api.$host/resource/$pid , $out , Success"
+echo "$prot://$host/resource/$pid , $prot://api.$host/dnb-urn/?verb=GetRecord&metadataPrefix=oai_dc&identifier=$prot://api.$host/resource/$pid , $out , Success"
 else
-echo "http://$host/resource/$pid , http://api.$host/dnb-urn/?verb=GetRecord&metadataPrefix=oai_dc&identifier=http://api.$host/resource/$pid , $out , ERROR"
+echo "$prot://$host/resource/$pid , $prot://api.$host/dnb-urn/?verb=GetRecord&metadataPrefix=oai_dc&identifier=$prot://api.$host/resource/$pid , $out , ERROR"
 fi
 done <pid2urn.sorted.txt
 }
