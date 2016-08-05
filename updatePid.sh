@@ -4,8 +4,7 @@
 
 pid=$1
 server=$2
+date=$3
 
-echo "lobidify"
-curl -s -uedoweb-admin:$PASSWORD -XPOST $server/utils/lobidify/$pid -H"accept: application/json" 
-echo "enrich"
-curl -s -uedoweb-admin:$PASSWORD -XPOST $server/resource/$pid/metadata/enrich -H"accept: application/json" 
+echo "lobidify $pid"
+curl -s -uedoweb-admin:$PASSWORD -XPOST $server/utils/updateMetadata/$pid?date=$date -H"accept: application/json" 
